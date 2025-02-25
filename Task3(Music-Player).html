@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Player</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .player {
+            width: 350px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+            text-align: center;
+        }
+
+        .album-art {
+            width: 120px;
+            height: 120px;
+            border-radius: 10px;
+            border: 3px solid #00f2ff;
+            margin-bottom: 15px;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        h2 {
+            margin-bottom: 10px;
+            font-size: 22px;
+            font-weight: 600;
+            color: #00f2ff;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        button {
+            background: rgba(0, 242, 255, 0.2);
+            color: #00f2ff;
+            border: 2px solid #00f2ff;
+            padding: 12px 15px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            transition: 0.3s ease-in-out;
+        }
+
+        button:hover {
+            background: rgba(0, 242, 255, 0.4);
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="player">
+        <img src="album.jpg" alt="Album Art" class="album-art" id="albumArt">
+        <h2 id="song-title">Song 1</h2>
+        <audio id="audio" src="song1.mp3"></audio>
+        
+        <div class="controls">
+            <button onclick="prevSong()">⏮️</button>
+            <button id="playPauseBtn" onclick="togglePlayPause()">▶️</button>
+            <button onclick="nextSong()">⏭️</button>
+        </div>
+    </div>
+
+    <script>
+        const songs = [
+            { title: "Song 1", src: "song1.mp3", image: "album1.jpg" },
+            { title: "Song 2", src: "song2.mp3", image: "album2.jpg" },
+            { title: "Song 3", src: "song3.mp3", image: "album3.jpg" }
+        ];
+        let currentSongIndex = 0;
+        const audio = document.getElementById("audio");
+        const songTitle = document.getElementById("song-title");
+        const playPauseBtn = document.getElementById("playPauseBtn");
+        const albumArt = document.getElementById("albumArt");
+
+        function loadSong(index) {
+            audio.src = songs[index].src;
+            songTitle.textContent = songs[index].title;
+            albumArt.src = songs[index].image;
+        }
+
+        function togglePlayPause() {
+            if (audio.paused) {
+                audio.play();
+                playPauseBtn.textContent = "⏸️";
+            } else {
+                audio.pause();
+                playPauseBtn.textContent = "▶️";
+            }
+        }
+
+        function prevSong() {
+            currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
+            loadSong(currentSongIndex);
+            audio.play();
+            playPauseBtn.textContent = "⏸️";
+        }
+
+        function nextSong() {
+            currentSongIndex = (currentSongIndex + 1) % songs.length;
+            loadSong(currentSongIndex);
+            audio.play();
+            playPauseBtn.textContent = "⏸️";
+        }
+
+        loadSong(currentSongIndex);
+    </script>
+
+</body>
+</html>
